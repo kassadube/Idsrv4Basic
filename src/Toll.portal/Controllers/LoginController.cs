@@ -18,6 +18,10 @@ namespace Toll.portal.Controllers
           
         }
 
-       
+        public ActionResult Logout()
+        {
+            return View();
+
+        }
     }
 }

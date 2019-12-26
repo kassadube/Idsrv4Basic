@@ -48,6 +48,7 @@ namespace Toll.portal
             options.Scope.Add("profile");
             options.Scope.Add("openid");
             options.ResponseType = "id_token";
+            options.SaveTokens = true;
         }
 
         private void SetAuthenticationOptions(AuthenticationOptions options)
