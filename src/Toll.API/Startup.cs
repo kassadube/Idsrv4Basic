@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -25,6 +26,22 @@ namespace Toll.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            ConfigureIdentityServer(services);
+        }
+
+        private void ConfigureIdentityServer(IServiceCollection services)
+        {
+            var builder = services.AddAuthentication(options => options.DefaultScheme = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme);
+            builder.AddJwtBearer(options => SetJwtBearerOptions(options));
+
+
+        }
+
+        private void SetJwtBearerOptions(JwtBearerOptions options)
+        {
+            options.Authority = "http://localhost/Idsrv4.InMem";
+            options.Audience = "toll.api";
+            options.RequireHttpsMetadata = false;
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -38,6 +55,8 @@ namespace Toll.API
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseAuthentication();
 
             app.UseEndpoints(endpoints =>
             {
