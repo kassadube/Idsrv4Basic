@@ -89,7 +89,7 @@ namespace Idsrv4.InMem
                     ClientId = "toll.portal",
                     ClientName = "Toll Portal Client",
 
-                    AllowedGrantTypes = GrantTypes.Implicit,
+                    AllowedGrantTypes = GrantTypes.Hybrid,
                    // RequirePkce = true,
                    // ClientSecrets = { new Secret("49C1A7E1-0C79-4A89-A3D6-A37998FB86B0".Sha256()) },
 

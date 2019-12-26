@@ -48,7 +48,7 @@ namespace Toll.portal
             options.Scope.Add("profile");
             options.Scope.Add("openid");
             options.Scope.Add("toll.api");
-            options.ResponseType = "id_token";
+            options.ResponseType = "code id_token";
             options.SaveTokens = true;
         }
 
