@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -22,7 +24,36 @@ namespace Toll.portal
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.Configure<CookiePolicyOptions>(options =>
+            {
+                options.CheckConsentNeeded = context => true;
+                options.MinimumSameSitePolicy = Microsoft.AspNetCore.Http.SameSiteMode.None;
+            });
             services.AddControllersWithViews();
+            ConfigureIdentityServer(services);
+        }
+
+        private void ConfigureIdentityServer(IServiceCollection services)
+        {
+           var builder = services.AddAuthentication(options => SetAuthenticationOptions(options));
+            builder.AddCookie();
+            builder.AddOpenIdConnect(options => SetOpenIdConnectOptions(options));
+        }
+
+        private void SetOpenIdConnectOptions(OpenIdConnectOptions options)
+        {
+            options.Authority = "http://localhost/Idsrv4.InMem";
+            options.ClientId = "toll.portal";
+            options.RequireHttpsMetadata = false;
+            options.Scope.Add("profile");
+            options.Scope.Add("openid");
+            options.ResponseType = "id_token";
+        }
+
+        private void SetAuthenticationOptions(AuthenticationOptions options)
+        {
+            options.DefaultScheme = Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationDefaults.AuthenticationScheme;// "Cookies";
+            options.DefaultChallengeScheme = Microsoft.AspNetCore.Authentication.OpenIdConnect.OpenIdConnectDefaults.AuthenticationScheme;//  "OpenIdConnect";
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -41,6 +72,9 @@ namespace Toll.portal
             app.UseRouting();
 
             app.UseAuthorization();
+            
+            app.UseCookiePolicy();
+            app.UseAuthentication();
 
             app.UseEndpoints(endpoints =>
             {

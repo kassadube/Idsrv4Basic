@@ -80,7 +80,21 @@ namespace Idsrv4.InMem
                     AllowedCorsOrigins = { "http://localhost:5002" },
 
                     AllowedScopes = { "openid", "profile", "api1" }
-                }
+                },
+                new Client
+                {
+                    ClientId = "toll.portal",
+                    ClientName = "Toll Portal Client",
+
+                    AllowedGrantTypes = GrantTypes.Implicit,
+                   // RequirePkce = true,
+                   // ClientSecrets = { new Secret("49C1A7E1-0C79-4A89-A3D6-A37998FB86B0".Sha256()) },
+
+                    RedirectUris = { "http://localhost:5005/signin-oidc" },
+
+                    AllowOfflineAccess = true,
+                    AllowedScopes = { "openid", "profile" }
+                },
             };
     }
 }

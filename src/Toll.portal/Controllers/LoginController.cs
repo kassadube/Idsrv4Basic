@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,7 +13,9 @@ namespace Toll.portal.Controllers
         // GET: Login
         public ActionResult Login()
         {
-            return View();
+            return Challenge(new AuthenticationProperties() { RedirectUri = "Home/Index" },
+               Microsoft.AspNetCore.Authentication.OpenIdConnect.OpenIdConnectDefaults.AuthenticationScheme);
+          
         }
 
        
