@@ -42,7 +42,7 @@ namespace Toll.portal
 
         private void SetOpenIdConnectOptions(OpenIdConnectOptions options)
         {
-            options.Authority = "http://localhost/Idsrv4.InMem";
+            options.Authority = "http://localhost/idsrv4.inmem";
             options.ClientId = "toll.portal";
             options.RequireHttpsMetadata = false;
             options.Scope.Add("profile");

@@ -39,7 +39,7 @@ namespace Toll.API
 
         private void SetJwtBearerOptions(JwtBearerOptions options)
         {
-            options.Authority = "http://localhost/Idsrv4.InMem";
+            options.Authority = "http://localhost/idsrv4.inmem";
             options.Audience = "toll.api";
             options.RequireHttpsMetadata = false;
         }
